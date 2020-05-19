@@ -1,46 +1,24 @@
-require('./config/config')
+require('./config/config');
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
 //como es un middleware, se ejecuta siempre que pasa por aqui
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }))
+
 // parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
+app.use(require('./routes/usuario'));
 
-app.get('/usuario', function(req, res) {
-
-    res.json('get Usuario')
-})
-
-app.post('/usuario', function(req, res) {
-    let body = req.body;
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        }); //bad request
-    } else {
-        res.json({
-            persona: body
-        });
-    }
-
-
-})
-
-app.put('/usuario/:id', function(req, res) {
-    let id = req.params.id;
-    res.json({
-        id
-    })
-})
-
-app.delete('/usuario', function(req, res) {
-    res.json('delete Usuario')
-})
+//mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
+mongoose.connect(process.env.URLDB, (err, res) => {
+    //para definir un callback para decir si ha funcionado o no la conexión
+    if (err) throw err;
+    console.log('Base de datos ONLINE');
+});
 
 app.listen(process.env.PORT, () => {
     console.log('Escuchando puerto ', process.env.PORT);
-})
+});
