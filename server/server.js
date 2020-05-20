@@ -12,8 +12,8 @@ app.use(bodyParser.json())
 
 app.use(require('./routes/usuario'));
 
-mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
-    //mongoose.connect(process.env.URLDB, (err, res) => {
+//mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
+mongoose.connect(process.env.URLDB, (err, res) => {
     //para definir un callback para decir si ha funcionado o no la conexión
     if (err) throw err;
     console.log('Base de datos ONLINE');
